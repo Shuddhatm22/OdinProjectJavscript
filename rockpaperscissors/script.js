@@ -52,31 +52,32 @@ function playRound(playerSelection, computerSelection) {
   }
 }
 
-function playGame() {
-  let playerScore = 0;
-  let computerScore = 0;
+const selection = document.querySelector("#selection");
+const results = document.querySelector("#results");
+let playerScore = 0;
+let computerScore = 0;
 
-  for (let i = 0; i < 5; i++) {
-    const playerSelection = prompt("Whats your selection?");
+selection.addEventListener("click", (e) => {
+  if (e.target.tagName == "BUTTON") {
     const computerSelection = getComputerChoice();
-    let roundResult = playRound(playerSelection, computerSelection);
-
+    let roundResult = playRound(e.target.id, computerSelection);
     if (roundResult == 1) playerScore++;
     else if (roundResult == -1) computerScore++;
-  }
+    displayScore(playerScore, computerScore);
 
-  displayGameResult();
+    if(playerScore == 5){
+      //end game
+      results.textContent = "You won!!";
+    }
+    else if(computerScore == 5){
+      results.textContent = "You lose!!";
+    }
+  }
+});
+
+
+function displayScore(playerScore, computerScore) {
+  results.textContent = `You : ${playerScore}, Computer : ${computerScore}`;
 }
 
-function displayGameResult(playerScore, computerScore) {
-  if (playerScore > computerScore) {
-    console.log("You won the game!!");
-  } else if (playerScore < computerScore) {
-    console.log("You lost the game!!");
-  }
-  else{
-    console.log("Game tied!!");
-  }
-}
-
-playGame();
+// playGame();
